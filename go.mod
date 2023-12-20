@@ -1,6 +1,6 @@
 module github.com/GoExpertCurso/Desafio-CLA
 
-go 1.21.3
+go 1.19
 
 require (
 	github.com/99designs/gqlgen v0.17.41
