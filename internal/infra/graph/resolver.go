@@ -10,4 +10,5 @@ import (
 
 type Resolver struct {
 	CreateOrderUseCase usecase.CreateOrderUseCase
+	GetOrdersUseCase usecase.GetOrdersUseCase
 }

@@ -4,6 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/GoExpertCurso/Desafio-CLA/internal/entity"
+	"github.com/hashicorp/go-multierror"
 )
 
 type OrderRepository struct {
@@ -24,6 +25,54 @@ func (r *OrderRepository) Save(order *entity.Order) error {
 		return err
 	}
 	return nil
+}
+
+func (r *OrderRepository) GetOrder(orderId string) (entity.Order, error) {
+	var id string
+	var price, tax, finalPrice float64
+	err := r.Db.QueryRow(`SELECT id, price, tax, final_price FROM orders WHERE id = ?`, orderId).Scan(&id, &price, &tax,
+		&finalPrice)
+	if err != nil {
+		return entity.Order{}, err
+	}
+	return entity.Order{
+		ID:         id,
+		Price:      price,
+		Tax:        tax,
+		FinalPrice: finalPrice,
+	}, nil
+}
+
+func (r *OrderRepository) GetOrders() ([]entity.Order, error) {
+	rows, err := r.Db.Query(`select id, price, tax, final_price from orders`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	orders := []entity.Order{}
+	var scanErr error
+
+	for rows.Next() {
+		var id string
+		var price, tax, finalPrice float64
+
+		if err := rows.Scan(&id, &price, &tax, &finalPrice); err != nil {
+			scanErr = multierror.Append(scanErr, err)
+			continue
+		}
+
+		orders = append(orders, entity.Order{
+			ID:         id,
+			Price:      price,
+			Tax:        tax,
+			FinalPrice: finalPrice,
+		})
+	}
+	if err := rows.Err(); err != nil {
+		return nil, multierror.Append(scanErr, err)
+	}
+
+	return orders, nil
 }
 
 func (r *OrderRepository) GetTotal() (int, error) {

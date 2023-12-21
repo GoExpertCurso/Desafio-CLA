@@ -17,6 +17,10 @@ import (
 	"github.com/google/wire"
 )
 
+import (
+	_ "github.com/go-sql-driver/mysql"
+)
+
 // Injectors from wire.go:
 
 func NewCreateOrderUseCase(db *sql.DB, eventDispatcher events.EventDispatcherInterface) *usecase.CreateOrderUseCase {
@@ -24,6 +28,12 @@ func NewCreateOrderUseCase(db *sql.DB, eventDispatcher events.EventDispatcherInt
 	orderCreated := event.NewOrderCreated()
 	createOrderUseCase := usecase.NewCreateOrderUseCase(orderRepository, orderCreated, eventDispatcher)
 	return createOrderUseCase
+}
+
+func NewGetOrdersUseCase(db *sql.DB) *usecase.GetOrdersUseCase {
+	orderRepository := database.NewOrderRepository(db)
+	getOrdersUseCase := usecase.NewGetOrdersUseCase(orderRepository)
+	return getOrdersUseCase
 }
 
 func NewWebOrderHandler(db *sql.DB, eventDispatcher events.EventDispatcherInterface) *web.WebOrderHandler {
