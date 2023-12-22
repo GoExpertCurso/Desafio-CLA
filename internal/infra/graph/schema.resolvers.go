@@ -7,7 +7,7 @@ package graph
 import (
 	"context"
 
-	"github.com/GoExpertCurso/Desafio-CLA/graph/model"
+	"github.com/GoExpertCurso/Desafio-CLA/internal/infra/graph/model"
 	"github.com/GoExpertCurso/Desafio-CLA/internal/usecase"
 )
 
