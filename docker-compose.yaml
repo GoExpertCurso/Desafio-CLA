@@ -31,15 +31,3 @@ services:
       - "0.0.0.0:8080:8080"
     volumes:
       - .:/app
-
-  migrate:
-    image: migrate/migrate
-    networks:
-      - default
-      - mysqldb
-    volumes:
-      - ./internal/infra/database/migrations:/migrations
-    command: "-path=/migrations -database 'mysql://root:root@tcp(mysqldb:3306)/orders' up"
-    depends_on:
-      mysqldb:
-        condition: service_healthy
