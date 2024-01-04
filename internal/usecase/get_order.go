@@ -15,22 +15,9 @@ func NewGetOrdersUseCase(
 		OrderRepository: OrderRepository,
 	}
 }
-func (g *GetOrdersUseCase) GetOrder(id string) (OrderOutputDTO, error) {
-	order, err := g.OrderRepository.GetOrder(id)
-	if err != nil {
-		return OrderOutputDTO{}, err
-	}
 
-	return OrderOutputDTO{
-		ID:         order.ID,
-		Price:      order.Price,
-		Tax:        order.Tax,
-		FinalPrice: order.FinalPrice,
-	}, nil 
-}
-
-func (g *GetOrdersUseCase) GetOrders() ([]OrderOutputDTO, error) {
-	orders, err := g.OrderRepository.GetOrders()
+func (g *GetOrdersUseCase) ListOrders() ([]OrderOutputDTO, error) {
+	orders, err := g.OrderRepository.ListOrders()
 	if err != nil {
 		return nil, err
 	}

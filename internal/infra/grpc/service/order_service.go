@@ -39,7 +39,7 @@ func (s *OrderService) CreateOrder(ctx context.Context, in *pb.CreateOrderReques
 }
 
 func (s *OrderService) GetOrders(ctx context.Context, in *pb.Blank) (*pb.GetOrdersResponse, error) {
-	orders, err := s.GetOrdersUseCase.GetOrders()
+	orders, err := s.GetOrdersUseCase.ListOrders()
 	if err != nil {
 		return nil, err
 	}

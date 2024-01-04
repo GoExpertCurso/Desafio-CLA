@@ -30,25 +30,9 @@ func (r *mutationResolver) CreateOrder(ctx context.Context, input *model.OrderIn
 	}, nil
 }
 
-// GetOrder is the resolver for the getOrder field.
-func (r *queryResolver) GetOrder(ctx context.Context, id *string) (*model.Order, error) {
-	selected, err := r.GetOrdersUseCase.GetOrder(*id)
-	if err != nil {
-		return nil, err
-	}
-	order := &model.Order{
-		ID:         selected.ID,
-		Price:      selected.Price,
-		Tax:        selected.Tax,
-		FinalPrice: selected.FinalPrice,
-	}
-
-	return order, nil
-}
-
 // GetOrders is the resolver for the getOrders field.
-func (r *queryResolver) GetOrders(ctx context.Context) ([]*model.Order, error) {
-	orders, err := r.GetOrdersUseCase.GetOrders()
+func (r *queryResolver) ListOrders(ctx context.Context) ([]*model.Order, error) {
+	orders, err := r.GetOrdersUseCase.ListOrders()
 	if err != nil {
 		return nil, err
 	}

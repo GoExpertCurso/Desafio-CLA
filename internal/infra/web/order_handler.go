@@ -48,9 +48,9 @@ func (h *WebOrderHandler) Create(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *WebOrderHandler) GetOrders(w http.ResponseWriter, r *http.Request) {
+func (h *WebOrderHandler) ListOrders(w http.ResponseWriter, r *http.Request) {
 	getOrders := usecase.NewGetOrdersUseCase(h.OrderRepository)
-	output, err := getOrders.GetOrders()
+	output, err := getOrders.ListOrders()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

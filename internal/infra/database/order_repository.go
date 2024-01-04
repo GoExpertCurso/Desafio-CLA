@@ -27,23 +27,7 @@ func (r *OrderRepository) Save(order *entity.Order) error {
 	return nil
 }
 
-func (r *OrderRepository) GetOrder(orderId string) (entity.Order, error) {
-	var id string
-	var price, tax, finalPrice float64
-	err := r.Db.QueryRow(`SELECT id, price, tax, final_price FROM orders WHERE id = ?`, orderId).Scan(&id, &price, &tax,
-		&finalPrice)
-	if err != nil {
-		return entity.Order{}, err
-	}
-	return entity.Order{
-		ID:         id,
-		Price:      price,
-		Tax:        tax,
-		FinalPrice: finalPrice,
-	}, nil
-}
-
-func (r *OrderRepository) GetOrders() ([]entity.Order, error) {
+func (r *OrderRepository) ListOrders() ([]entity.Order, error) {
 	rows, err := r.Db.Query(`select id, price, tax, final_price from orders`)
 	if err != nil {
 		return nil, err
